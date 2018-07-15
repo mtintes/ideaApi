@@ -5,9 +5,6 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
-// var Client = require('node-rest-client').Client;
-// var client = new Client();
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -19,7 +16,7 @@ app.post('/api/ideas/', function (req, res) {
 
   var options = {
     method: 'POST',
-    uri: 'https://api.github.com/repos/' + config.user + '/' + config.repo + '/idea/issues',
+    uri: 'https://api.github.com/repos/' + config.user + '/' + config.repo + '/issues',
     body:  {
           title: Date.now(),
           body: message,
@@ -36,13 +33,12 @@ app.post('/api/ideas/', function (req, res) {
   };
 
   rp(options).then(function(parsedBody){
-
-
+    res.send("thanks for the idea. I've posted it here: " + parsedBody.html_url);
   }).catch(function(err){
     console.log(err);
   });
 
- 
+
 
 });
 
